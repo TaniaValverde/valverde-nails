@@ -18,4 +18,7 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
     // Verificar si un cliente tiene citas registradas
     boolean existsByCliente_IdCliente(Integer idCliente);
 
+    // Ordenar todas las citas por fecha y luego por hora
+    List<Cita> findAllByOrderByFechaAscHoraAsc();
+
 }

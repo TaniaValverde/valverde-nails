@@ -15,14 +15,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class ClienteController {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
 
-    @Autowired
-    private CitaRepository citaRepository;
+    private final CitaRepository citaRepository;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    ClienteController(ClienteRepository clienteRepository, CitaRepository citaRepository,
+            UsuarioRepository usuarioRepository) {
+        this.clienteRepository = clienteRepository;
+        this.citaRepository = citaRepository;
+        this.usuarioRepository = usuarioRepository;
+    }
 
     // ── Método de verificación de sesión ──────────────────────────────────────
     private boolean noEsAdmin(HttpSession session) {

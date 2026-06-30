@@ -5,18 +5,22 @@ import com.valverde.valverde_nails.model.Usuario;
 import com.valverde.valverde_nails.repository.ClienteRepository;
 import com.valverde.valverde_nails.repository.UsuarioRepository;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final ClienteRepository clienteRepository;
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+    public LoginController(UsuarioRepository usuarioRepository,
+            ClienteRepository clienteRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.clienteRepository = clienteRepository;
+    }
 
     @GetMapping("/")
     public String inicio() {

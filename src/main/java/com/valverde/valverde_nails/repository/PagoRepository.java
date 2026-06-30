@@ -7,12 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PagoRepository extends JpaRepository<Pago, Integer> {
 
-    // Reporte: pagos dentro de un rango de fechas (inclusive)
+    // Reporte: pagos dentro de un rango de fechas
     List<Pago> findByFechaPagoBetween(LocalDate desde, LocalDate hasta);
 
     // Reporte: pagos filtrados por método de pago
-    List<Pago> findByMetodoPagoIgnoreCase(String metodoPago);
+    List<Pago> findByMetodoPagoContainingIgnoreCase(String metodoPago);
 
-    // Reporte: pagos filtrados por método de pago Y rango de fechas
-    List<Pago> findByMetodoPagoIgnoreCaseAndFechaPagoBetween(String metodoPago, LocalDate desde, LocalDate hasta);
+    // Reporte: pagos filtrados por método de pago y rango de fechas
+    List<Pago> findByMetodoPagoContainingIgnoreCaseAndFechaPagoBetween(
+            String metodoPago,
+            LocalDate desde,
+            LocalDate hasta);
 }

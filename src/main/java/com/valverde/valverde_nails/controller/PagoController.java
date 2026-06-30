@@ -124,14 +124,14 @@ public class PagoController {
         return "redirect:/pagos";
     }
 
-    // ==========================================
-    // REPORTE DE PAGOS — filtro por fecha y/o método de pago
-    // ==========================================
     @GetMapping("/reporte")
     public String reporte(
             @RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate desde,
+
             @RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate hasta,
+
             @RequestParam(required = false) String metodoPago,
+
             Model model,
             HttpSession session) {
 
@@ -144,11 +144,12 @@ public class PagoController {
         java.util.List<Pago> pagos;
 
         if (hayFechas && hayMetodo) {
-            pagos = pagoRepository.findByMetodoPagoIgnoreCaseAndFechaPagoBetween(metodoPago, desde, hasta);
+            pagos = pagoRepository.findByMetodoPagoContainingIgnoreCaseAndFechaPagoBetween(
+                    metodoPago, desde, hasta);
         } else if (hayFechas) {
             pagos = pagoRepository.findByFechaPagoBetween(desde, hasta);
         } else if (hayMetodo) {
-            pagos = pagoRepository.findByMetodoPagoIgnoreCase(metodoPago);
+            pagos = pagoRepository.findByMetodoPagoContainingIgnoreCase(metodoPago);
         } else {
             pagos = pagoRepository.findAll();
         }

@@ -73,7 +73,7 @@ public class CitaController {
         if (noEsAdmin(session))
             return "redirect:/login";
 
-        model.addAttribute("citas", citaRepository.findAll());
+        model.addAttribute("citas", citaRepository.findAllByOrderByFechaAscHoraAsc());
         return "citas";
     }
 
