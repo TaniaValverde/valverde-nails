@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Nuevo Pago | Valverde Nails</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-highest": "#e4e2e0", "on-secondary-container": "#725f53", "inverse-on-surface": "#f2f0ee", "secondary": "#6d5b4f", "error": "#ba1a1a", "on-background": "#1b1c1b", "surface-bright": "#fbf9f7", "on-primary-container": "#67444c", "outline-variant": "#d3c2c5", "surface": "#fbf9f7", "surface-variant": "#e4e2e0", "outline": "#817476", "on-primary": "#ffffff", "on-tertiary-fixed": "#1f1b14", "inverse-surface": "#30302f", "on-surface": "#1b1c1b", "primary-container": "#e2b4bd", "tertiary-fixed": "#ebe1d6", "on-secondary-fixed-variant": "#544339", "on-primary-fixed-variant": "#5f3d45", "inverse-primary": "#e9bbc4", "on-error": "#ffffff", "on-surface-variant": "#4f4446", "surface-container-high": "#eae8e6", "secondary-container": "#f4dbcc", "surface-container-lowest": "#ffffff", "on-tertiary": "#ffffff", "surface-container-low": "#f5f3f1", "tertiary-container": "#c7beb4", "error-container": "#ffdad6", "background": "#fbf9f7", "primary-fixed": "#ffd9e0", "surface-tint": "#79545c", "tertiary": "#645d55", "on-primary-fixed": "#2e131a", "primary-fixed-dim": "#e9bbc4", "on-tertiary-container": "#534d45", "surface-dim": "#dbdad8", "surface-container": "#efedec", "on-secondary": "#ffffff", "on-error-container": "#93000a", "secondary-fixed": "#f7decf", "primary": "#79545c", "on-secondary-fixed": "#261910", "secondary-fixed-dim": "#dac2b4", "tertiary-fixed-dim": "#cec5bb", "on-tertiary-fixed-variant": "#4c463e"
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    spacing: {
+                        "lg": "28px", "base": "7px", "xl": "48px", "xs": "4px",
+                        "container-margin": "20px", "gutter": "16px", "sm": "10px", "md": "16px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Montserrat"], "caption": ["Montserrat"], "headline-lg-mobile": ["Playfair Display"],
+                        "label-md": ["Montserrat"], "display-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"], "body-lg": ["Montserrat"], "headline-lg": ["Playfair Display"]
+                    },
+                    fontSize: {
+                        "body-md": ["13px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "caption": ["11px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "label-md": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["38px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "body-lg": ["15px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["26px", { "lineHeight": "1.2", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background-color: #fbf9f7;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(226, 180, 189, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(213, 189, 175, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(226, 180, 189, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(213, 189, 175, 0.1) 0px, transparent 50%);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(213, 189, 175, 0.3);
+            transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: #e2b4bd;
+            box-shadow: 0 10px 24px rgba(226, 180, 189, 0.12);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-nav-border {
+            border-right: 3px solid #79545c;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d3c2c5;
+            border-radius: 10px;
+        }
+
+        .sidebar {
+            width: 210px;
+        }
+
+        .main-area {
+            margin-left: 210px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Estilos de formulario */
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid #d3c2c5;
+            border-radius: 0.5rem;
+            padding: 8px 12px;
+            font-size: 13px;
+            transition: all 200ms;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #79545c;
+            box-shadow: 0 0 0 3px rgba(121, 84, 92, 0.1);
+            background: white;
+        }
+
+        .form-input:hover {
+            border-color: #e2b4bd;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #4f4446;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234f4446' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+
+        .btn-primary {
+            background: #79545c;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 200ms;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: #67444c;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(121, 84, 92, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #4f4446;
+            padding: 10px 20px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 200ms;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #d3c2c5;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            border-color: #79545c;
+            color: #79545c;
+            background: rgba(121, 84, 92, 0.05);
+        }
+    </style>
+</head>
+
+<body class="text-on-surface antialiased">
+
+    <!-- ── SIDEBAR 210px ── -->
+    <aside
+        class="sidebar fixed left-0 top-0 h-screen border-r border-outline-variant/30 bg-surface/75 backdrop-blur-xl flex flex-col py-3 px-2 z-50 justify-between">
+        <div>
+            <!-- Logo -->
+            <div class="flex flex-col items-center mb-4 mt-1">
+                <img th:src="@{/assets/img/logo.png}" alt="Logo"
+                    class="w-12 h-12 mb-1 object-contain hover:scale-105 transition-transform duration-500" />
+                <h1 class="font-headline-md text-primary text-center tracking-tight text-base leading-tight">Valverde
+                    Nails</h1>
+                <p class="text-[9px] uppercase tracking-widest text-on-surface-variant/70 mt-0.5">Management Suite</p>
+            </div>
+
+            <!-- Nav -->
+            <nav class="flex flex-col space-y-0.5">
+                <a th:href="@{/dashboard-admin}"
+                    class="flex items-center gap-2 px-3 py-2 text-on-surface-variant hover:bg-primary-container/10 hover:text-primary transition-all rounded-lg group">
+                    <span class="material-symbols-outlined text-[20px] group-hover:text-primary">dashboard</span>
+                    <span class="font-label-md text-[12px]">Dashboard</span>
+                </a>
+                <a th:href="@{/citas}"
+                    class="flex items-center gap-2 px-3 py-2 text-on-surface-variant hover:bg-primary-container/10 hover:text-primary transition-all rounded-lg group">
+                    <span class="material-symbols-outlined text-[20px] group-hover:text-primary">calendar_month</span>
+                    <span class="font-label-md text-[12px]">Citas</span>
+                </a>
+                <a th:href="@{/clientes}"
+                    class="flex items-center gap-2 px-3 py-2 text-on-surface-variant hover:bg-primary-container/10 hover:text-primary transition-all rounded-lg group">
+                    <span class="material-symbols-outlined text-[20px] group-hover:text-primary">group</span>
+                    <span class="font-label-md text-[12px]">Clientes</span>
+                </a>
+                <a th:href="@{/servicios}"
+                    class="flex items-center gap-2 px-3 py-2 text-on-surface-variant hover:bg-primary-container/10 hover:text-primary transition-all rounded-lg group">
+                    <span class="material-symbols-outlined text-[20px] group-hover:text-primary">brush</span>
+                    <span class="font-label-md text-[12px]">Servicios</span>
+                </a>
+                <a th:href="@{/pagos}"
+                    class="flex items-center gap-2 px-3 py-2 text-primary font-bold active-nav-border bg-primary-container/20 transition-all rounded-l-lg">
+                    <span class="material-symbols-outlined text-[20px]">payments</span>
+                    <span class="font-label-md text-[12px]">Pagos</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Bottom: Logout -->
+        <div class="pt-2 border-t border-outline-variant/20 flex flex-col gap-1 mb-1">
+            <a th:href="@{/logout}"
+                class="flex items-center gap-2 px-3 py-2 text-on-surface-variant hover:text-error transition-all group rounded-lg">
+                <span class="material-symbols-outlined text-[20px] group-hover:text-error">logout</span>
+                <span class="font-label-md text-[12px]">Cerrar Sesión</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ── MAIN AREA ── -->
+    <div class="main-area">
+
+        <!-- Topbar -->
+        <header
+            class="flex-shrink-0 bg-background/70 backdrop-blur-lg border-b border-outline-variant/20 flex justify-between items-center px-5 py-2 z-40">
+            <div>
+                <h2 class="font-headline-md text-primary text-base leading-tight">Nuevo Pago</h2>
+                <p class="font-caption text-on-surface-variant text-[11px]" id="current-date-display"></p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="p-1.5 rounded-full hover:bg-surface-variant/40 transition-colors relative">
+                    <span class="material-symbols-outlined text-on-surface-variant text-[20px]">notifications</span>
+                    <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-primary rounded-full"></span>
+                </button>
+                <button class="p-1.5 rounded-full hover:bg-surface-variant/40 transition-colors">
+                    <span class="material-symbols-outlined text-on-surface-variant text-[20px]">settings</span>
+                </button>
+                <div class="flex items-center gap-2 pl-3 border-l border-outline-variant/20">
+                    <div class="text-right">
+                        <p class="font-label-md text-[12px]">Valverde Admin</p>
+                        <p class="text-[10px] uppercase tracking-wider text-primary font-medium">Master Manager</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full border-2 border-primary-container overflow-hidden shadow-sm">
+                        <img class="w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvQDC-lYx8yMonNg6iDL6XsZb1cG9JHcC-bVtaxKnh8VXP5cC7B24kkeHuAOxrQLQW_5puVDcTolzvqxy-U5YQzoeC4lruxVInmnZWtNXjbaOvar-cVa9HXFmB8yCTPjrzFbGJLuMvIRP4B9u_99riIigUnHt817sS3vb8rQk8DLYp-A29hl6C2b0-pfO3gSmAb0P3hwPCCCj6ybx2hz7xqHqi_urO0b3UV2hNgF8WKCcw52Evq9kamiYLSj8vYs60mIZtiwVY6BA"
+                            alt="Admin" />
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido principal -->
+        <section class="flex-1 overflow-hidden p-4 flex flex-col gap-3">
+
+            <!-- Formulario -->
+            <div class="glass-card rounded-xl p-5 max-w-3xl mx-auto w-full overflow-y-auto">
+                <div class="flex items-start gap-3 mb-4">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-primary-container/30 flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-primary text-[22px]">receipt_long</span>
+                    </div>
+                    <div>
+                        <h3 class="font-headline-md text-on-surface text-base">Detalles de la Transacción</h3>
+                        <p class="text-[12px] text-on-surface-variant">Registre los datos correspondientes al pago del
+                            servicio.</p>
+                    </div>
+                </div>
+
+                <form th:action="@{/pagos/guardar}" method="POST" class="space-y-4">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Cliente -->
+                        <div class="space-y-1">
+                            <label class="form-label">Cliente</label>
+                            <select name="nombreCliente" class="form-input form-select" required>
+                                <option value="">Seleccione un cliente...</option>
+                                <option th:each="cliente : ${clientes}" th:value="${cliente.nombre}"
+                                    th:text="${cliente.nombre}">Cliente</option>
+                            </select>
+                        </div>
+
+                        <!-- Servicio -->
+                        <div class="space-y-1">
+                            <label class="form-label">Servicio</label>
+                            <select name="nombreServicio" class="form-input form-select" required>
+                                <option value="">Seleccione el servicio...</option>
+                                <option th:each="servicio : ${servicios}" th:value="${servicio.nombre}"
+                                    th:text="${servicio.nombre}">Servicio</option>
+                            </select>
+                        </div>
+
+                        <!-- Monto -->
+                        <div class="space-y-1">
+                            <label class="form-label">Monto</label>
+                            <div class="relative">
+                                <span
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface font-semibold text-sm">₡</span>
+                                <input type="number" name="monto" class="form-input pl-8" placeholder="0.00" step="0.01"
+                                    required />
+                            </div>
+                        </div>
+
+                        <!-- Método de Pago -->
+                        <div class="space-y-1">
+                            <label class="form-label">Método de Pago</label>
+                            <select name="metodoPago" class="form-input form-select" required>
+                                <option value="Efectivo">Efectivo</option>
+                                <option value="Transferencia">Transferencia</option>
+                                <option value="Sinpe Móvil">SINPE Móvil</option>
+
+                            </select>
+                        </div>
+
+                        <!-- Fecha de Pago -->
+                        <div class="space-y-1">
+                            <label class="form-label">Fecha de Pago</label>
+                            <input type="date" name="fechaPago" class="form-input"
+                                th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}" required />
+                        </div>
+                    </div>
+
+                    <!-- Nota informativa -->
+                    <div
+                        class="flex items-start gap-2 bg-tertiary-fixed/20 p-3 rounded-lg border border-tertiary-fixed-dim/30">
+                        <span class="material-symbols-outlined text-tertiary text-[18px] flex-shrink-0 mt-0.5"
+                            style="font-variation-settings: 'FILL' 1;">info</span>
+                        <p class="text-[11px] text-on-tertiary-container">
+                            Asegúrese de verificar el monto total y el método de pago antes de guardar la transacción en
+                            el sistema.
+                        </p>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="flex items-center justify-end gap-3 pt-3 border-t border-outline-variant/20">
+                        <a th:href="@{/pagos}" class="btn-secondary">
+                            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                            Volver
+                        </a>
+                        <button type="submit" class="btn-primary">
+                            <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                            Guardar Pago
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="flex-shrink-0 py-1.5 text-center border-t border-outline-variant/10 bg-surface/20">
+            <p class="font-caption text-outline opacity-60 text-[10px]">© 2026 Valverde Nails. Elevated Artistry.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function updateDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date-display').textContent = new Date().toLocaleDateString('es-ES', options);
+        }
+        updateDate();
+    </script>
+</body>
+
+</html>

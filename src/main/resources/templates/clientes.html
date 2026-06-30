@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Lista de Clientes | Valverde Nails</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c1b", "on-secondary-container": "#725f53", "secondary-container": "#f4dbcc", "on-secondary": "#ffffff", "inverse-on-surface": "#f2f0ee", "primary-fixed": "#ffd9e0", "on-primary-fixed-variant": "#5f3d45", "inverse-surface": "#30302f", "surface-container-lowest": "#ffffff", "on-tertiary-container": "#534d45", "on-primary-container": "#67444c", "surface-container-high": "#eae8e6", "primary-fixed-dim": "#e9bbc4", "outline": "#817476", "tertiary": "#645d55", "surface-container-low": "#f5f3f1", "surface-bright": "#fbf9f7", "surface": "#fbf9f7", "secondary-fixed": "#f7decf", "tertiary-fixed": "#ebe1d6", "on-surface-variant": "#4f4446", "on-secondary-fixed": "#261910", "tertiary-fixed-dim": "#cec5bb", "on-error": "#ffffff", "on-tertiary-fixed-variant": "#4c463e", "primary-container": "#e2b4bd", "surface-container": "#efedec", "on-tertiary": "#ffffff", "surface-tint": "#79545c", "outline-variant": "#d3c2c5", "error": "#ba1a1a", "on-primary-fixed": "#2e131a", "error-container": "#ffdad6", "on-primary": "#ffffff", "tertiary-container": "#c7beb4", "background": "#fbf9f7", "secondary": "#6d5b4f", "primary": "#79545c", "on-tertiary-fixed": "#1f1b14", "secondary-fixed-dim": "#dac2b4", "on-background": "#1b1c1b", "on-error-container": "#93000a", "inverse-primary": "#e9bbc4", "surface-variant": "#e4e2e0", "surface-dim": "#dbdad8", "on-secondary-fixed-variant": "#544339", "surface-container-highest": "#e4e2e0"
+                    },
+                    "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    /* Espaciado calibrado para 1536×864 (Dell 5420 @ 125%) */
+                    "spacing": {
+                        "xl": "40px", "gutter": "20px", "md": "20px",
+                        "xs": "4px", "sm": "10px", "base": "8px",
+                        "lg": "32px", "container-margin": "28px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Montserrat"], "display-lg": ["Playfair Display"],
+                        "caption": ["Montserrat"], "headline-lg-mobile": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"], "body-md": ["Montserrat"],
+                        "headline-md": ["Playfair Display"], "body-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "label-md": ["13px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "caption": ["11px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["26px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-lg": ["28px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: #fbf9f7;
+            color: #1b1c1b;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(213, 189, 175, 0.3);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .action-btn-transition {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Sidebar fijo 220px */
+        .sidebar {
+            width: 220px;
+        }
+
+        .topbar {
+            left: 220px;
+            width: calc(100% - 220px);
+        }
+
+        .main {
+            margin-left: 220px;
+        }
+
+        /* Tabla compacta pero legible */
+        .data-table th,
+        .data-table td {
+            padding: 11px 16px;
+        }
+
+        .data-table thead th {
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+        }
+
+        .data-table tbody td {
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen overflow-x-hidden">
+
+    <!-- ── SIDEBAR 220px ── -->
+    <nav
+        class="sidebar fixed left-0 top-0 h-screen bg-surface-container-low border-r border-outline-variant/30 flex flex-col py-8 px-4 z-50">
+        <div class="mb-8 px-2">
+            <h1 class="font-display-lg text-headline-md text-primary tracking-tight leading-tight">Valverde</h1>
+            <p class="text-[10px] font-semibold text-on-surface-variant/60 uppercase tracking-widest mt-0.5">Nail
+                Artistry</p>
+        </div>
+        <div class="flex-1 space-y-1">
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+                th:href="@{/dashboard-admin}">
+                <span
+                    class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">dashboard</span>
+                <span class="font-semibold">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+                th:href="@{/citas}">
+                <span
+                    class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">calendar_month</span>
+                <span class="font-semibold">Citas</span>
+            </a>
+            <!-- Activo: Clientes -->
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-bold border-r-4 border-primary bg-secondary-container/20 text-sm"
+                th:href="@{/clientes}">
+                <span class="material-symbols-outlined text-[20px]"
+                    style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24">group</span>
+                <span class="font-semibold">Clientes</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+                th:href="@{/servicios}">
+                <span
+                    class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">layers</span>
+                <span class="font-semibold">Servicios</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+                th:href="@{/pagos}">
+                <span
+                    class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">credit_card</span>
+                <span class="font-semibold">Pagos</span>
+            </a>
+        </div>
+        <a th:href="@{/logout}"
+            class="block text-center bg-primary text-on-primary py-2.5 rounded-full text-sm font-semibold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-95 mx-1">
+            Cerrar sesión
+        </a>
+    </nav>
+
+    <!-- ── TOPBAR ── -->
+    <header
+        class="topbar fixed top-0 h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 flex justify-between items-center px-6 z-40 shadow-sm shadow-primary/5">
+        <div class="relative flex items-center">
+            <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">search</span>
+            <input
+                class="pl-9 pr-4 py-1.5 bg-surface-container rounded-full border-none focus:ring-1 focus:ring-primary/30 text-sm w-56 transition-all"
+                placeholder="Buscar clientes..." type="text" id="busqueda" onkeyup="filtrar()" />
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-[22px]">notifications</span>
+            </button>
+            <button class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-[22px]">settings</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ── MAIN ── -->
+    <main class="main pt-16 min-h-screen">
+        <div class="px-7 py-8 max-w-full">
+
+            <!-- Section Header -->
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-11 h-11 rounded-xl bg-primary-container/30 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-[26px]">group</span>
+                    </div>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface">Lista de Clientes</h2>
+                </div>
+                <a class="inline-flex items-center gap-1 px-5 py-2.5 bg-primary text-on-primary rounded-full text-sm font-semibold shadow-md shadow-primary/10 hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+                    th:href="@{/clientes/nuevo}">
+                    <span class="material-symbols-outlined text-[18px]">add</span>
+                    Nuevo Cliente
+                </a>
+            </div>
+            <div id="mensajeError" th:if="${error}"
+                class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 flex items-center gap-3">
+
+                <span class="material-symbols-outlined text-red-600">
+                    warning
+                </span>
+
+                <span class="text-red-700 font-medium" th:text="${error}">
+                </span>
+
+            </div>
+
+            <div id="mensajeExito" th:if="${eliminado}"
+                class="mb-6 rounded-xl border border-green-200 bg-green-50 px-4 py-3 flex items-center gap-3">
+
+                <span class="material-symbols-outlined text-green-600">
+                    check_circle
+                </span>
+
+                <span class="text-green-700 font-medium" th:text="${eliminado}">
+                </span>
+
+            </div>
+            <!-- Tabla -->
+            <div class="glass-card rounded-xl shadow-xl shadow-primary/5 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse data-table" id="tablaClientes">
+                        <thead>
+                            <tr class="bg-primary/90 text-on-primary">
+                                <th class="tracking-wider">ID</th>
+                                <th class="tracking-wider">Nombre</th>
+                                <th class="tracking-wider">Teléfono</th>
+                                <th class="tracking-wider">Correo</th>
+                                <th class="tracking-wider text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/10">
+
+                            <tr th:if="${#lists.isEmpty(clientes)}">
+                                <td colspan="5" class="text-center py-10 text-on-surface-variant italic text-sm">
+                                    No hay clientes registrados.
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-secondary-container/10 transition-colors"
+                                th:each="cliente, stat : ${clientes}"
+                                th:classappend="${stat.odd} ? 'bg-surface-container-low/50' : ''">
+
+                                <td class="text-on-surface-variant" th:text="'#' + ${cliente.idCliente}"></td>
+
+                                <td>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-7 h-7 rounded-full bg-secondary-container flex items-center justify-center text-secondary font-bold text-xs flex-shrink-0"
+                                            th:text="${#strings.substring(cliente.nombre,0,1).toUpperCase()}"></div>
+                                        <span class="font-semibold text-on-surface" th:text="${cliente.nombre}"></span>
+                                    </div>
+                                </td>
+
+                                <td class="text-on-surface-variant" th:text="${cliente.telefono}"></td>
+                                <td class="text-on-surface-variant" th:text="${cliente.correo}"></td>
+
+                                <td class="text-center">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <a class="action-btn-transition flex items-center gap-1 px-3 py-1 rounded-full border border-secondary text-secondary hover:bg-secondary hover:text-on-secondary text-[11px] font-semibold"
+                                            th:href="@{/clientes/editar/{id}(id=${cliente.idCliente})}">
+                                            <span class="material-symbols-outlined text-[14px]">edit</span>
+                                            Editar
+                                        </a>
+                                        <a class="action-btn-transition flex items-center gap-1 px-3 py-1 rounded-full border border-error text-error hover:bg-error hover:text-on-error text-[11px] font-semibold"
+                                            th:href="@{/clientes/eliminar/{id}(id=${cliente.idCliente})}"
+                                            onclick="return confirm('¿Eliminar este cliente?')">
+                                            <span class="material-symbols-outlined text-[14px]">delete</span>
+                                            Eliminar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="px-4 py-3 border-t border-outline-variant/20">
+                    <p class="text-[11px] text-on-surface-variant"
+                        th:text="'Total: ' + ${#lists.size(clientes)} + ' clientes'"></p>
+                </div>
+            </div>
+
+            <!-- Volver -->
+            <footer class="mt-6">
+                <a class="group inline-flex items-center gap-1 text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    th:href="@{/dashboard-admin}">
+                    <span
+                        class="material-symbols-outlined text-[18px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    Volver al Dashboard
+                </a>
+            </footer>
+        </div>
+    </main>
+
+    <!-- Atmósfera de fondo -->
+    <div class="fixed inset-0 pointer-events-none -z-10 opacity-25">
+        <div class="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary-container/20 rounded-full blur-[80px]"></div>
+        <div class="absolute bottom-[-5%] left-[15%] w-80 h-80 bg-secondary-container/20 rounded-full blur-[70px]">
+        </div>
+    </div>
+
+    <script>
+        function filtrar() {
+            const texto = document.getElementById('busqueda').value.toLowerCase();
+            document.querySelectorAll('#tablaClientes tbody tr').forEach(fila => {
+                fila.style.display = fila.textContent.toLowerCase().includes(texto) ? '' : 'none';
+            });
+        }
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'translateY(-1px)';
+                row.style.boxShadow = '0 4px 6px -1px rgba(121,84,92,0.06)';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = '';
+                row.style.boxShadow = '';
+            });
+        });
+    </script>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            ["mensajeError", "mensajeExito"].forEach(function (id) {
+
+                const mensaje = document.getElementById(id);
+
+                if (mensaje) {
+
+                    setTimeout(function () {
+
+                        mensaje.style.transition = "opacity .6s";
+                        mensaje.style.opacity = "0";
+
+                        setTimeout(function () {
+                            mensaje.remove();
+                        }, 600);
+
+                    }, 3000);
+
+                }
+
+            });
+
+        });
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("#mensajeExito, #mensajeError").forEach(el => {
+                setTimeout(() => {
+                    el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+                    el.style.opacity = "0";
+                    el.style.transform = "translateY(-6px)";
+                    setTimeout(() => el.remove(), 600);
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+
+</html>

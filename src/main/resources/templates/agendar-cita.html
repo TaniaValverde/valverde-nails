@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Agendar Cita | Valverde Nails</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-surface": "#1b1c1b", "on-secondary-container": "#725f53", "secondary-container": "#f4dbcc", "on-secondary": "#ffffff", "inverse-on-surface": "#f2f0ee", "primary-fixed": "#ffd9e0", "on-primary-fixed-variant": "#5f3d45", "inverse-surface": "#30302f", "surface-container-lowest": "#ffffff", "on-tertiary-container": "#534d45", "on-primary-container": "#67444c", "surface-container-high": "#eae8e6", "primary-fixed-dim": "#e9bbc4", "outline": "#817476", "tertiary": "#645d55", "surface-container-low": "#f5f3f1", "surface-bright": "#fbf9f7", "surface": "#fbf9f7", "secondary-fixed": "#f7decf", "tertiary-fixed": "#ebe1d6", "on-surface-variant": "#4f4446", "on-secondary-fixed": "#261910", "tertiary-fixed-dim": "#cec5bb", "on-error": "#ffffff", "on-tertiary-fixed-variant": "#4c463e", "primary-container": "#e2b4bd", "surface-container": "#efedec", "on-tertiary": "#ffffff", "surface-tint": "#79545c", "outline-variant": "#d3c2c5", "error": "#ba1a1a", "on-primary-fixed": "#2e131a", "error-container": "#ffdad6", "on-primary": "#ffffff", "tertiary-container": "#c7beb4", "background": "#fbf9f7", "secondary": "#6d5b4f", "primary": "#79545c", "on-tertiary-fixed": "#1f1b14", "secondary-fixed-dim": "#dac2b4", "on-background": "#1b1c1b", "on-error-container": "#93000a", "inverse-primary": "#e9bbc4", "surface-variant": "#e4e2e0", "surface-dim": "#dbdad8", "on-secondary-fixed-variant": "#544339", "surface-container-highest": "#e4e2e0"
+                    },
+                    "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    spacing: {
+                        "xl": "40px", "gutter": "20px", "md": "20px",
+                        "xs": "4px", "sm": "10px", "base": "8px",
+                        "lg": "32px", "container-margin": "28px"
+                    },
+                    fontFamily: {
+                        "label-md": ["Montserrat"], "display-lg": ["Playfair Display"],
+                        "caption": ["Montserrat"], "headline-lg-mobile": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"], "body-md": ["Montserrat"],
+                        "headline-md": ["Playfair Display"], "body-lg": ["Montserrat"]
+                    },
+                    fontSize: {
+                        "label-md": ["13px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "caption": ["11px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["26px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-lg": ["28px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffffff 0%, #f7decf 100%);
+            color: #1b1c1b;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(213, 189, 175, 0.3);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .sidebar {
+            width: 220px;
+        }
+
+        .topbar {
+            left: 220px;
+            width: calc(100% - 220px);
+        }
+
+        .main {
+            margin-left: 220px;
+        }
+
+        /* Estilos de formulario */
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid #d3c2c5;
+            border-radius: 0.75rem;
+            padding: 10px 14px;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 200ms;
+            outline: none;
+            color: #1b1c1b;
+        }
+
+        .form-input:focus {
+            border-color: #79545c;
+            box-shadow: 0 0 0 3px rgba(121, 84, 92, 0.1);
+            background: white;
+        }
+
+        .form-input:hover {
+            border-color: #e2b4bd;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4f4446;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .btn-primary {
+            background: #79545c;
+            color: white;
+            padding: 10px 28px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 200ms;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 4px 12px rgba(121, 84, 92, 0.15);
+        }
+
+        .btn-primary:hover {
+            background: #67444c;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(121, 84, 92, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #4f4446;
+            padding: 10px 24px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 200ms;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #d3c2c5;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-secondary:hover {
+            border-color: #79545c;
+            color: #79545c;
+            background: rgba(121, 84, 92, 0.05);
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234f4446' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen overflow-x-hidden">
+
+    <!-- ── SIDEBAR 220px ── -->
+    <nav
+        class="sidebar fixed left-0 top-0 h-screen bg-surface-container-low border-r border-outline-variant/30 flex flex-col py-8 px-4 z-50">
+        <div class="mb-8 px-2">
+            <h1 class="font-display-lg text-headline-md text-primary tracking-tight leading-tight">Valverde</h1>
+            <p class="text-[10px] font-semibold text-on-surface-variant/60 uppercase tracking-widest mt-0.5">Nail
+                Artistry</p>
+        </div>
+        <div class="flex-1 space-y-1">
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+                th:href="@{/dashboard-cliente}">
+                <span
+                    class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">dashboard</span>
+                <span class="font-semibold">Dashboard</span>
+            </a>
+            <!-- Activo: Agendar Cita -->
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-bold border-r-4 border-primary bg-secondary-container/20 text-sm"
+                th:href="@{/agendar-cita}">
+                <span class="material-symbols-outlined text-[20px]"
+                    style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24">calendar_add_on</span>
+                <span class="font-semibold">Agendar Cita</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+                th:href="@{/mis-citas}">
+                <span
+                    class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">event_note</span>
+                <span class="font-semibold">Mis Citas</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+                th:href="@{/servicios-cliente}">
+                <span
+                    class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">layers</span>
+                <span class="font-semibold">Servicios</span>
+            </a>
+        </div>
+        <a th:href="@{/logout}"
+            class="block text-center bg-primary text-on-primary py-2.5 rounded-full text-sm font-semibold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-95 mx-1">
+            Cerrar sesión
+        </a>
+    </nav>
+
+    <!-- ── TOPBAR ── -->
+    <header
+        class="topbar fixed top-0 h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 flex justify-between items-center px-6 z-40 shadow-sm shadow-primary/5">
+        <div class="flex items-center gap-4">
+            <button class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-[22px]">notifications</span>
+            </button>
+            <button class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-[22px]">settings</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ── MAIN ── -->
+    <main class="main pt-16 min-h-screen">
+        <div class="px-7 py-8 max-w-full">
+
+            <!-- Section Header -->
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-11 h-11 rounded-xl bg-primary-container/30 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-[26px]">calendar_add_on</span>
+                </div>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface">Agendar Cita</h2>
+            </div>
+
+            <!-- Formulario -->
+            <div class="glass-card rounded-xl shadow-xl shadow-primary/5 overflow-hidden">
+                <div class="p-8 max-w-3xl mx-auto">
+
+                    <form th:action="@{/citas/guardar}" method="post" class="space-y-6">
+
+                        <input type="hidden" name="origen" value="cliente" />
+
+                        <!-- Fecha -->
+                        <div class="space-y-1.5">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" name="fecha" class="form-input" required />
+                        </div>
+
+                        <!-- Hora -->
+                        <div class="space-y-1.5">
+                            <label class="form-label">Hora</label>
+                            <input type="time" name="hora" class="form-input" required />
+                        </div>
+
+                        <!-- Servicio -->
+                        <div class="space-y-1.5">
+                            <label class="form-label">Servicio</label>
+                            <select name="servicio.idServicio" class="form-input form-select" required>
+                                <option value="">Seleccione un servicio...</option>
+                                <option th:each="servicio : ${servicios}" th:value="${servicio.idServicio}"
+                                    th:text="${servicio.nombre + ' - ₡' + servicio.precio}">
+                                    Servicio
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Estado (oculto) -->
+                        <input type="hidden" name="estado" value="Pendiente" />
+
+                        <!-- Nota informativa -->
+                        <div
+                            class="flex items-start gap-2 bg-tertiary-fixed/20 p-3 rounded-lg border border-tertiary-fixed-dim/30">
+                            <span class="material-symbols-outlined text-tertiary text-[18px] flex-shrink-0 mt-0.5"
+                                style="font-variation-settings: 'FILL' 1;">info</span>
+                            <p class="text-xs text-on-tertiary-container" style="font-size:11px;">
+                                Al agendar tu cita, recibirás una confirmación en tu correo electrónico.
+                            </p>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="flex items-center justify-end gap-3 pt-4 border-t border-outline-variant/20">
+<button type="submit" class="btn-primary">
+                                <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                                Guardar Cita
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- Volver al Dashboard -->
+            <footer class="mt-6">
+                <a class="group inline-flex items-center gap-1 text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    th:href="@{/dashboard-cliente}">
+                    <span
+                        class="material-symbols-outlined text-[18px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    Volver al Dashboard
+                </a>
+            </footer>
+        </div>
+    </main>
+
+    <!-- Atmósfera de fondo -->
+    <div class="fixed inset-0 pointer-events-none -z-10 opacity-25">
+        <div class="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary-container/20 rounded-full blur-[80px]"></div>
+        <div class="absolute bottom-[-5%] left-[15%] w-80 h-80 bg-secondary-container/20 rounded-full blur-[70px]">
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', () => {
+                const label = input.closest('.space-y-1.5')?.querySelector('.form-label');
+                if (label) label.style.color = '#79545c';
+            });
+
+            input.addEventListener('blur', () => {
+                const label = input.closest('.space-y-1.5')?.querySelector('.form-label');
+                if (label) label.style.color = '';
+            });
+        });
+    </script>
+
+
+
+    <!-- Toast: cita guardada -->
+    <div id="toastExito"
+         th:if="${param.exito}"
+         style="position:fixed;bottom:32px;right:32px;background:#79545c;color:white;padding:14px 22px;border-radius:12px;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:600;box-shadow:0 8px 24px rgba(121,84,92,0.25);display:flex;align-items:center;gap:10px;z-index:9999;animation:fadeIn 0.3s ease;">
+        <span style="font-size:18px;">&#10003;</span>
+        ¡Cita guardada con éxito!
+    </div>
+    <style>
+        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    </style>
+    <script th:if="${param.exito}">
+        setTimeout(function() {
+            var t = document.getElementById('toastExito');
+            if (t) {
+                t.style.transition = 'opacity 0.4s ease';
+                t.style.opacity = '0';
+                setTimeout(function() { t.remove(); }, 400);
+            }
+        }, 3000);
+    </script>
+
+</body>
+
+</html>

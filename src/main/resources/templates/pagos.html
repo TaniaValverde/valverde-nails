@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Listado de Pagos | Valverde Nails</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c1b","on-secondary-container": "#725f53","secondary-container": "#f4dbcc","on-secondary": "#ffffff","inverse-on-surface": "#f2f0ee","primary-fixed": "#ffd9e0","on-primary-fixed-variant": "#5f3d45","inverse-surface": "#30302f","surface-container-lowest": "#ffffff","on-tertiary-container": "#534d45","on-primary-container": "#67444c","surface-container-high": "#eae8e6","primary-fixed-dim": "#e9bbc4","outline": "#817476","tertiary": "#645d55","surface-container-low": "#f5f3f1","surface-bright": "#fbf9f7","surface": "#fbf9f7","secondary-fixed": "#f7decf","tertiary-fixed": "#ebe1d6","on-surface-variant": "#4f4446","on-secondary-fixed": "#261910","tertiary-fixed-dim": "#cec5bb","on-error": "#ffffff","on-tertiary-fixed-variant": "#4c463e","primary-container": "#e2b4bd","surface-container": "#efedec","on-tertiary": "#ffffff","surface-tint": "#79545c","outline-variant": "#d3c2c5","error": "#ba1a1a","on-primary-fixed": "#2e131a","error-container": "#ffdad6","on-primary": "#ffffff","tertiary-container": "#c7beb4","background": "#fbf9f7","secondary": "#6d5b4f","primary": "#79545c","on-tertiary-fixed": "#1f1b14","secondary-fixed-dim": "#dac2b4","on-background": "#1b1c1b","on-error-container": "#93000a","inverse-primary": "#e9bbc4","surface-variant": "#e4e2e0","surface-dim": "#dbdad8","on-secondary-fixed-variant": "#544339","surface-container-highest": "#e4e2e0"
+                    },
+                    "borderRadius": {"DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px"},
+                    "spacing": {
+                        "xl": "40px","gutter": "20px","md": "20px",
+                        "xs": "4px","sm": "10px","base": "8px",
+                        "lg": "32px","container-margin": "28px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Montserrat"],"display-lg": ["Playfair Display"],
+                        "caption": ["Montserrat"],"headline-lg-mobile": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],"body-md": ["Montserrat"],
+                        "headline-md": ["Playfair Display"],"body-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "label-md":        ["13px", {"lineHeight":"1.2","letterSpacing":"0.05em","fontWeight":"600"}],
+                        "display-lg":      ["40px", {"lineHeight":"1.1","letterSpacing":"-0.02em","fontWeight":"600"}],
+                        "caption":         ["11px", {"lineHeight":"1.4","fontWeight":"400"}],
+                        "headline-lg-mobile":["26px",{"lineHeight":"1.2","fontWeight":"500"}],
+                        "headline-lg":     ["28px", {"lineHeight":"1.2","fontWeight":"500"}],
+                        "body-md":         ["14px", {"lineHeight":"1.5","fontWeight":"400"}],
+                        "headline-md":     ["22px", {"lineHeight":"1.3","fontWeight":"500"}],
+                        "body-lg":         ["16px", {"lineHeight":"1.6","fontWeight":"400"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        html, body { height: 100%; overflow-x: hidden; }
+        body { background: linear-gradient(135deg, #ffffff 0%, #f7decf 100%); color: #1b1c1b; font-family: 'Montserrat', sans-serif; margin: 0; }
+        .glass-card { background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(213,189,175,0.3); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .action-btn-transition { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        .sidebar  { width: 220px; }
+        .topbar   { left: 220px; width: calc(100% - 220px); }
+        .main     { margin-left: 220px; }
+        .data-table th, .data-table td { padding: 11px 16px; }
+        .data-table thead th { font-size: 12px; letter-spacing: 0.06em; font-weight: 600; }
+        .data-table tbody td { font-size: 13px; }
+    </style>
+</head>
+
+<body class="min-h-screen overflow-x-hidden">
+
+    <!-- ── SIDEBAR ── -->
+    <nav class="sidebar fixed left-0 top-0 h-screen bg-surface-container-low border-r border-outline-variant/30 flex flex-col py-8 px-4 z-50">
+        <div class="mb-8 px-2">
+            <h1 class="font-display-lg text-headline-md text-primary tracking-tight leading-tight">Valverde</h1>
+            <p class="text-[10px] font-semibold text-on-surface-variant/60 uppercase tracking-widest mt-0.5">Nail Artistry</p>
+        </div>
+        <div class="flex-1 space-y-1">
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+               th:href="@{/dashboard-admin}">
+                <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">dashboard</span>
+                <span class="font-semibold">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+               th:href="@{/citas}">
+                <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">calendar_month</span>
+                <span class="font-semibold">Citas</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+               th:href="@{/clientes}">
+                <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">group</span>
+                <span class="font-semibold">Clientes</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-secondary-container/10 transition-colors group text-sm"
+               th:href="@{/servicios}">
+                <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">layers</span>
+                <span class="font-semibold">Servicios</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-bold border-r-4 border-primary bg-secondary-container/20 text-sm"
+               th:href="@{/pagos}">
+                <span class="material-symbols-outlined text-[20px]" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24">payments</span>
+                <span class="font-semibold">Pagos</span>
+            </a>
+        </div>
+        <a th:href="@{/logout}"
+           class="block text-center bg-primary text-on-primary py-2.5 rounded-full text-sm font-semibold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-95 mx-1">
+            Cerrar sesión
+        </a>
+    </nav>
+
+    <!-- ── TOPBAR ── -->
+    <header class="topbar fixed top-0 h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 flex justify-between items-center px-6 z-40 shadow-sm shadow-primary/5">
+        <div class="relative flex items-center">
+            <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">search</span>
+            <input class="pl-9 pr-4 py-1.5 bg-surface-container rounded-full border-none focus:ring-1 focus:ring-primary/30 text-sm w-56 transition-all"
+                   placeholder="Buscar pagos..." type="text" id="busqueda" onkeyup="filtrar()" />
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-[22px]">notifications</span>
+            </button>
+            <button class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-[22px]">settings</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ── MAIN ── -->
+    <main class="main pt-16 min-h-screen">
+        <div class="px-7 py-8 max-w-full">
+
+            <!-- Section Header -->
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-xl bg-primary-container/30 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-[26px]">payments</span>
+                    </div>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface">Listado de Pagos</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a class="inline-flex items-center gap-1 px-5 py-2.5 border border-primary text-primary rounded-full text-sm font-semibold hover:bg-primary/10 transition-all"
+                       th:href="@{/pagos/reporte}">
+                        <span class="material-symbols-outlined text-[18px]">analytics</span>
+                        Reporte
+                    </a>
+                    <a class="inline-flex items-center gap-1 px-5 py-2.5 bg-primary text-on-primary rounded-full text-sm font-semibold shadow-md shadow-primary/10 hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+                       th:href="@{/pagos/nuevo}">
+                        <span class="material-symbols-outlined text-[18px]">add_card</span>
+                        Nuevo Pago
+                    </a>
+                </div>
+            </div>
+
+            <!-- ── BLOQUES DE MENSAJES (AGREGADO) ── -->
+            <div th:if="${exito}" id="mensajeExito"
+                 class="msg-flash w-full mb-4 p-3 bg-green-100 text-green-800 rounded-lg text-center">
+                <p th:text="${exito}"></p>
+            </div>
+
+            <div th:if="${error}" id="mensajeError"
+                 class="msg-flash w-full mb-4 p-3 bg-red-100 text-red-800 rounded-lg text-center">
+                <p th:text="${error}"></p>
+            </div>
+
+            <!-- Tabla -->
+            <div class="glass-card rounded-xl shadow-xl shadow-primary/5 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse data-table" id="tablaPagos">
+                        <thead>
+                            <tr class="bg-primary/90 text-on-primary">
+                                <th class="tracking-wider">ID</th>
+                                <th class="tracking-wider">Cliente</th>
+                                <th class="tracking-wider">Servicio</th>
+                                <th class="tracking-wider">Fecha Pago</th>
+                                <th class="tracking-wider">Método</th>
+                                <th class="tracking-wider">Monto</th>
+                                <th class="tracking-wider text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/10">
+
+                            <!-- ▸ Fila vacía si no hay pagos -->
+                            <tr th:if="${#lists.isEmpty(pagos)}">
+                                <td colspan="7" class="text-center py-10 text-on-surface-variant text-sm">
+                                    <span class="material-symbols-outlined text-[36px] block mb-2 opacity-40">payments</span>
+                                    No hay pagos registrados aún.
+                                </td>
+                            </tr>
+
+                            <!-- ▸ Loop sobre cada pago de la BD -->
+                            <tr th:each="pago, iterStat : ${pagos}"
+                                th:classappend="${iterStat.even} ? 'bg-surface-container-low/50' : ''"
+                                class="hover:bg-secondary-container/10 transition-colors">
+
+                                <!-- ID -->
+                                <td class="text-on-surface-variant font-mono"
+                                    th:text="'#' + ${pago.idPago}">
+                                    #0001
+                                </td>
+
+                                <!-- Cliente — iniciales generadas automáticamente -->
+                                <td>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-7 h-7 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-bold text-xs"
+                                             th:text="${#strings.length(pago.nombreCliente) >= 2}
+                                                       ? ${#strings.toUpperCase(#strings.substring(pago.nombreCliente,0,1))}
+                                                         + ${#strings.toUpperCase(#strings.substring(pago.nombreCliente, #strings.indexOf(pago.nombreCliente,' ') > 0 ? #strings.indexOf(pago.nombreCliente,' ')+1 : 1, #strings.indexOf(pago.nombreCliente,' ') > 0 ? #strings.indexOf(pago.nombreCliente,' ')+2 : 2))}
+                                                       : ${#strings.toUpperCase(#strings.substring(pago.nombreCliente,0,1))}">
+                                            --
+                                        </div>
+                                        <span class="font-semibold text-on-surface" th:text="${pago.nombreCliente}">Cliente</span>
+                                    </div>
+                                </td>
+
+                                <!-- Servicio -->
+                                <td>
+                                    <span class="inline-block bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[11px] font-medium"
+                                          th:text="${pago.nombreServicio}">
+                                        Servicio
+                                    </span>
+                                </td>
+
+                                <!-- Fecha -->
+                                <td class="text-on-surface-variant"
+                                    th:text="${pago.fechaPago != null} ? ${#temporals.format(pago.fechaPago, 'dd MMM, yyyy')} : '—'">
+                                    --
+                                </td>
+
+                                <!-- Método de pago con ícono -->
+                                <td>
+                                    <div class="flex items-center gap-1.5 text-on-surface-variant">
+                                        <span class="material-symbols-outlined text-[18px]"
+                                              th:text="${pago.metodoPago != null and #strings.containsIgnoreCase(pago.metodoPago,'sinpe')} ? 'contactless'
+                                                      : (${pago.metodoPago != null and #strings.containsIgnoreCase(pago.metodoPago,'tarjeta')} ? 'credit_card'
+                                                      : 'payments')">
+                                            payments
+                                        </span>
+                                        <span class="text-[12px]" th:text="${pago.metodoPago}">Método</span>
+                                    </div>
+                                </td>
+
+                                <!-- Monto -->
+                                <td>
+                                    <span class="text-primary font-bold text-[16px]"
+                                          th:text="${pago.monto != null} ? '₡' + ${#numbers.formatDecimal(pago.monto, 1, 'COMMA', 2, 'POINT')} : '₡0.00'">
+                                        ₡0.00
+                                    </span>
+                                </td>
+
+                                <!-- Acciones -->
+                                <td class="text-center">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <a class="action-btn-transition flex items-center gap-1 px-3 py-1 rounded-full border border-secondary text-secondary hover:bg-secondary hover:text-on-secondary text-[11px] font-semibold"
+                                           th:href="@{/pagos/editar/{id}(id=${pago.idPago})}">
+                                            <span class="material-symbols-outlined text-[14px]">edit</span>
+                                            Editar
+                                        </a>
+                                        <a class="action-btn-transition flex items-center gap-1 px-3 py-1 rounded-full border border-error text-error hover:bg-error hover:text-on-error text-[11px] font-semibold"
+                                           th:href="@{/pagos/eliminar/{id}(id=${pago.idPago})}"
+                                           onclick="return confirm('¿Desea eliminar este pago?')">
+                                            <span class="material-symbols-outlined text-[14px]">delete</span>
+                                            Eliminar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Footer con total real -->
+                <div class="px-4 py-3 border-t border-outline-variant/20 flex justify-between items-center">
+                    <span class="text-[11px] text-on-surface-variant"
+                          th:text="'Total: ' + ${#lists.size(pagos)} + ' pago(s) registrado(s)'">
+                        Total: 0 pagos registrados
+                    </span>
+                </div>
+            </div>
+
+            <!-- Volver -->
+            <footer class="mt-6">
+                <a class="group inline-flex items-center gap-1 text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                   th:href="@{/dashboard-admin}">
+                    <span class="material-symbols-outlined text-[18px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    Volver al Dashboard
+                </a>
+            </footer>
+        </div>
+    </main>
+
+    <!-- Atmósfera de fondo -->
+    <div class="fixed inset-0 pointer-events-none -z-10 opacity-25">
+        <div class="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary-container/20 rounded-full blur-[80px]"></div>
+        <div class="absolute bottom-[-5%] left-[15%] w-80 h-80 bg-secondary-container/20 rounded-full blur-[70px]"></div>
+    </div>
+
+    <script>
+        function filtrar() {
+            const texto = document.getElementById('busqueda').value.toLowerCase();
+            document.querySelectorAll('#tablaPagos tbody tr').forEach(fila => {
+                fila.style.display = fila.textContent.toLowerCase().includes(texto) ? '' : 'none';
+            });
+        }
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'translateY(-1px)';
+                row.style.boxShadow = '0 4px 6px -1px rgba(121,84,92,0.06)';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = '';
+                row.style.boxShadow = '';
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("#mensajeExito, #mensajeError").forEach(el => {
+                setTimeout(() => {
+                    el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+                    el.style.opacity = "0";
+                    el.style.transform = "translateY(-6px)";
+                    setTimeout(() => el.remove(), 600);
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+
+</html>
