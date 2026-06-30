@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cita - Valverde Nails</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-variant":"#e4e2e0","surface-container-lowest":"#ffffff","secondary-fixed":"#f7decf",
+                        "on-tertiary-container":"#534d45","on-tertiary":"#ffffff","error-container":"#ffdad6",
+                        "background":"#fbf9f7","secondary":"#6d5b4f","on-error":"#ffffff","inverse-on-surface":"#f2f0ee",
+                        "tertiary-fixed-dim":"#cec5bb","surface-container-low":"#f5f3f1","surface-dim":"#dbdad8",
+                        "on-tertiary-fixed-variant":"#4c463e","on-primary-container":"#67444c","on-error-container":"#93000a",
+                        "inverse-primary":"#e9bbc4","tertiary-fixed":"#ebe1d6","surface-container-high":"#eae8e6",
+                        "outline":"#817476","tertiary":"#645d55","on-secondary-fixed":"#261910","on-surface-variant":"#4f4446",
+                        "primary-container":"#e2b4bd","error":"#ba1a1a","on-tertiary-fixed":"#1f1b14","on-secondary":"#ffffff",
+                        "primary":"#79545c","on-background":"#1b1c1b","secondary-container":"#f4dbcc",
+                        "surface-container-highest":"#e4e2e0","surface-tint":"#79545c","primary-fixed":"#ffd9e0",
+                        "inverse-surface":"#30302f","on-primary-fixed-variant":"#5f3d45","on-primary-fixed":"#2e131a",
+                        "surface":"#fbf9f7","surface-bright":"#fbf9f7","on-surface":"#1b1c1b","tertiary-container":"#c7beb4",
+                        "outline-variant":"#d3c2c5","on-secondary-fixed-variant":"#544339","on-primary":"#ffffff",
+                        "surface-container":"#efedec","secondary-fixed-dim":"#dac2b4","primary-fixed-dim":"#e9bbc4",
+                        "on-secondary-container":"#725f53"
+                    },
+                    borderRadius: {"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},
+                    spacing: {"xs":"4px","lg":"48px","sm":"12px","gutter":"24px","xl":"80px","md":"24px","container-margin":"32px","base":"8px"},
+                    fontFamily: {
+                        "headline-lg":["Playfair Display"],"display-lg":["Playfair Display"],
+                        "body-md":["Montserrat"],"caption":["Montserrat"],
+                        "headline-md":["Playfair Display"],"headline-lg-mobile":["Playfair Display"],
+                        "body-lg":["Montserrat"],"label-md":["Montserrat"]
+                    },
+                    fontSize: {
+                        "headline-lg": ["32px",{"lineHeight":"1.2","fontWeight":"500"}],
+                        "display-lg":  ["48px",{"lineHeight":"1.1","letterSpacing":"-0.02em","fontWeight":"600"}],
+                        "body-md":     ["16px",{"lineHeight":"1.5","fontWeight":"400"}],
+                        "caption":     ["12px",{"lineHeight":"1.4","fontWeight":"400"}],
+                        "headline-md": ["24px",{"lineHeight":"1.3","fontWeight":"500"}],
+                        "headline-lg-mobile":["28px",{"lineHeight":"1.2","fontWeight":"500"}],
+                        "body-lg":     ["18px",{"lineHeight":"1.6","fontWeight":"400"}],
+                        "label-md":    ["14px",{"lineHeight":"1.2","letterSpacing":"0.05em","fontWeight":"600"}]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; }
+        .glass-card { background:rgba(255,255,255,0.7); backdrop-filter:blur(12px); border:1px solid rgba(213,189,175,0.3); }
+        .soft-shadow { box-shadow:0 20px 40px -15px rgba(226,180,189,0.15); }
+        /* Quitar flecha nativa del select para usar la de Material Symbols */
+        select { appearance:none !important; -webkit-appearance:none !important; background-image:none !important; }
+    </style>
+</head>
+
+<body class="bg-background font-body-md text-on-background min-h-screen">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-secondary/10 flex flex-col py-3 px-base z-50">
+        <div class="mb-4 px-sm">
+            <h1 class="font-headline-md text-headline-md text-primary tracking-wide">Valverde Nails</h1>
+            <p class="text-secondary text-caption opacity-70">Panel de Administración</p>
+        </div>
+        <nav class="flex-1 space-y-1">
+            <a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-secondary font-medium hover:bg-secondary-container/10 transition-all duration-300"
+               th:href="@{/dashboard-admin}">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-label-md text-label-md">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-primary font-bold border-r-2 border-primary bg-secondary-container/30 transition-all duration-300"
+               th:href="@{/citas}">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">calendar_month</span>
+                <span class="font-label-md text-label-md">Citas</span>
+            </a>
+            <a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-secondary font-medium hover:bg-secondary-container/10 transition-all duration-300"
+               th:href="@{/clientes}">
+                <span class="material-symbols-outlined">group</span>
+                <span class="font-label-md text-label-md">Clientes</span>
+            </a>
+            <a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-secondary font-medium hover:bg-secondary-container/10 transition-all duration-300"
+               th:href="@{/servicios}">
+                <span class="material-symbols-outlined">content_cut</span>
+                <span class="font-label-md text-label-md">Servicios</span>
+            </a>
+        </nav>
+        <div class="pt-2 border-t border-secondary/10">
+            <a class="flex items-center gap-3 px-sm py-2 text-secondary hover:text-primary transition-colors" href="#">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="font-label-md text-label-md">Cerrar sesión</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <main class="ml-64 min-h-screen">
+
+        <!-- TopAppBar -->
+        <header class="flex justify-between items-center px-gutter w-full h-16 sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-secondary/10 shadow-sm shadow-primary/5">
+            <div class="flex items-center gap-4">
+                <span class="font-headline-md text-headline-md text-primary"
+                      th:text="${cita.id != null} ? 'Editar Cita' : 'Nueva Cita'">Cita</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div class="h-8 w-8 rounded-full overflow-hidden border border-primary/20">
+                    <img class="w-full h-full object-cover"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUymkB1KTHfTQ1InPxf8ycnS_03xnkqe7cvUWWFVH7kAu1wZlHSl_XS2SLIWPZ3WfiB36HAkzsQwsetxLVhdUHalixyFRBLDji8a9lCxHBc-S1gaRAPnCtT9pgh5iEklJYLytiOXP2dqyVVBZdKyr-0kCId_vNGpZxwHVNvYImNeC1wFI3SpsnAbpYLrUb-yR3Yeyv3iJs5yxAjClidDjppWTtdOwx2njyRNSjK4MHHIXRNc-5rk78yF-7oGy1cJYhMIpkJqzTWpQ"
+                         alt="Admin" />
+                </div>
+            </div>
+        </header>
+
+        <!-- Canvas -->
+        <section class="p-xl flex justify-center items-start animate-in fade-in duration-700">
+            <div class="w-full max-w-2xl glass-card rounded-2xl overflow-hidden soft-shadow transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10">
+
+                <!-- Card Header -->
+                <div class="bg-primary-container/20 px-md py-lg flex items-center gap-4 border-b border-outline-variant/20">
+                    <div class="h-12 w-12 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container">
+                        <span class="material-symbols-outlined text-[28px]">calendar_today</span>
+                    </div>
+                    <div>
+                        <h2 class="font-headline-md text-headline-md text-primary"
+                            th:text="${cita.id != null} ? 'Editar cita' : 'Formulario de cita'">Formulario de cita</h2>
+                        <p class="font-body-md text-caption text-on-surface-variant/70">Complete los detalles para programar una nueva cita.</p>
+                    </div>
+                </div>
+
+                <!-- ── FORMULARIO ── -->
+                <form th:action="@{/citas/guardar}" th:object="${cita}" class="p-md space-y-6" method="POST">
+
+                    <!-- ID oculto (necesario para editar) -->
+                    <input type="hidden" th:field="*{id}" />
+
+                    <!-- Cliente -->
+                    <div class="space-y-2">
+                        <label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="cliente">Cliente</label>
+                        <div class="relative">
+                            <select class="w-full appearance-none bg-surface-container-low border border-outline-variant/40 rounded-xl px-4 py-3 font-body-md text-on-surface outline-none transition-all focus:border-primary-container focus:ring-2 focus:ring-primary-container/20"
+                                    id="cliente" th:field="*{cliente}" required>
+                                <option value="">Seleccione un cliente</option>
+                                <option th:each="c : ${clientes}"
+                                        th:value="${c.idCliente}"
+                                        th:text="${c.nombre}">
+                                </option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
+                        </div>
+                    </div>
+
+                    <!-- Servicio -->
+                    <div class="space-y-2">
+                        <label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="servicio">Servicio</label>
+                        <div class="relative">
+                            <select class="w-full appearance-none bg-surface-container-low border border-outline-variant/40 rounded-xl px-4 py-3 font-body-md text-on-surface outline-none transition-all focus:border-primary-container focus:ring-2 focus:ring-primary-container/20"
+                                    id="servicio" th:field="*{servicio}" required>
+                                <option value="">Seleccione el tratamiento</option>
+                                <option th:each="s : ${servicios}"
+                                        th:value="${s.idServicio}"
+                                        th:text="${s.nombre}">
+                                </option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
+                        </div>
+                    </div>
+
+                    <!-- Fecha y Hora — dos columnas independientes -->
+                    <div class="grid grid-cols-2 gap-gutter">
+
+                        <!-- Fecha -->
+                        <div class="space-y-2">
+                            <label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="fecha">Fecha de la cita</label>
+                            <input class="w-full bg-surface-container-low border border-outline-variant/40 rounded-xl px-4 py-3 font-body-md text-on-surface outline-none transition-all focus:border-primary-container focus:ring-2 focus:ring-primary-container/20"
+                                   id="fecha" th:field="*{fecha}" type="date" required />
+                        </div>
+
+                        <!-- Hora -->
+                        <div class="space-y-2">
+                            <label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="hora">Hora de la cita</label>
+                            <input class="w-full bg-surface-container-low border border-outline-variant/40 rounded-xl px-4 py-3 font-body-md text-on-surface outline-none transition-all focus:border-primary-container focus:ring-2 focus:ring-primary-container/20"
+                                   id="hora" th:field="*{hora}" type="time" required />
+                        </div>
+
+                    </div><!-- fin grid fecha/hora -->
+
+                    <!-- Estado -->
+                    <div class="space-y-2">
+                        <label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="estado">Estado</label>
+                        <div class="relative">
+                            <select class="w-full appearance-none bg-surface-container-low border border-outline-variant/40 rounded-xl px-4 py-3 font-body-md text-on-surface outline-none transition-all focus:border-primary-container focus:ring-2 focus:ring-primary-container/20"
+                                    id="estado" th:field="*{estado}">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Confirmada">Confirmada</option>
+                                <option value="Completada">Completada</option>
+                                <option value="Cancelada">Cancelada</option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="pt-8 flex items-center gap-4">
+                        <button class="px-8 py-3.5 bg-primary-container text-on-primary-container font-label-md text-label-md rounded-full shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20 transform hover:-translate-y-0.5 transition-all duration-300"
+                                type="submit">
+                            Guardar Cita
+                        </button>
+                        <a class="px-8 py-3.5 border border-outline-variant text-secondary font-label-md text-label-md rounded-full hover:bg-surface-variant transition-all duration-300"
+                           href="javascript:history.back()">
+                            Volver
+                        </a>
+                    </div>
+
+                </form><!-- fin form -->
+
+            </div><!-- fin glass-card -->
+        </section>
+
+        <!-- Ornamento decorativo -->
+        <div class="fixed bottom-10 right-10 pointer-events-none opacity-10 blur-3xl w-64 h-64 bg-primary-container rounded-full"></div>
+
+    </main>
+
+    <script>
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                const wrap = input.closest('.space-y-2');
+                if (wrap) wrap.querySelector('label')?.classList.add('text-primary');
+            });
+            input.addEventListener('blur', () => {
+                const wrap = input.closest('.space-y-2');
+                if (wrap) wrap.querySelector('label')?.classList.remove('text-primary');
+            });
+        });
+    </script>
+
+</body>
+</html>
