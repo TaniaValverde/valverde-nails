@@ -33,22 +33,22 @@ public class DashboardAdminController {
     @GetMapping("/dashboard-admin")
     public String dashboardAdmin(Model model, HttpSession session) {
 
-        // ── Protección de sesión ────────────────────────────────────────────
+        // Protección de sesión
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null || usuario.getIdRol() != 1) {
             return "redirect:/login";
         }
 
-        // Conteos globales para las tarjetas informativas
+        // Conteos
         model.addAttribute("totalClientes", clienteRepository.count());
         model.addAttribute("totalServicios", servicioRepository.count());
         model.addAttribute("totalCitas", citaRepository.count());
         model.addAttribute("totalPagos", pagoRepository.count());
 
-        // Listado completo de citas para la tabla principal
-        model.addAttribute("citas", citaRepository.findAll());
+        // Mostrar únicamente las 4 próximas citas
+        model.addAttribute("citas", citaRepository.findTop4ByOrderByFechaAscHoraAsc());
 
-        // Listado completo de servicios para la sección derecha
+        // Servicios
         model.addAttribute("servicios", servicioRepository.findAll());
 
         return "dashboard-admin";

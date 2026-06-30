@@ -21,4 +21,7 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
     // Ordenar todas las citas por fecha y luego por hora
     List<Cita> findAllByOrderByFechaAscHoraAsc();
 
+    // Mostrar únicamente las 4 próximas citas
+    List<Cita> findTop4ByOrderByFechaAscHoraAsc();
+
 }
